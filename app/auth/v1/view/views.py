@@ -5,7 +5,7 @@ from flask_restful.reqparse import RequestParser
 
 from app import db
 
-from app.auth.v1.model.models import User,UserSchema
+from app.auth.v1.model.models import Genre, User,UserSchema
 
 parser = RequestParser()
 parser.add_argument('username',type=str,required=True,help="Please add your name")
@@ -26,7 +26,7 @@ class UserView(Resource):
         return{'user':output}
 
     def post(self):
-        args = parser.parse_args()
+        # args = parser.parse_args()
         args = request.get_json()
 
         username = args['username']
@@ -89,4 +89,18 @@ class UserPreference(Resource):
     Args:
         Resource ([type]): [description]
     """
-    
+    def put(self):
+        args = request.get_json()
+
+        username = args['username']
+        genre = args['genre']
+
+        user = User.query.filter_by(username = username).first()
+        preference = Genre.query.filter_by( name = genre ).first()
+
+        preference.preference.append(user)
+        db.session.commit()
+
+        return {
+            preference.id : user.id
+        }
