@@ -42,3 +42,31 @@ class UserView(Resource):
         output = user_schema.dump(user)
 
         return{'user':output}
+
+class UserLogin(Resource):
+    """This defines the behaviours when a user is login in
+
+    Args:
+        Resource ([type]): [description]
+    """
+
+    def post(self):
+        args = parser.parse_args()
+        args = request.get_json()
+
+        username = args['username']
+        email = args['email']
+        password = args['password']
+
+        user = User.query.filter_by(email = email).first()
+        if user is not None:
+            if password == user.password:
+                return {
+                    "message" : f"Welcome back {username}"
+                }
+            return {
+                'message' : 'Sorry but that password is not correct' 
+            }
+        return {
+            'message' : 'Wrong credentials, please check your email and try again'
+        }
