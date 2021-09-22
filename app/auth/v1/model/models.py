@@ -20,7 +20,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         model = User 
 
 
-class Preference(db.Model):
+class Genre(db.Model):
     """This will define all the preferences available for a user to choose from
 
     Args:
