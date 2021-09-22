@@ -82,3 +82,11 @@ class UserLogin(Resource):
         return {
             'message' : 'Wrong credentials, please check your email and password and try again'
         }
+
+class UserPreference(Resource):
+    """This is where a user can set his/her best genres
+
+    Args:
+        Resource ([type]): [description]
+    """
+    
