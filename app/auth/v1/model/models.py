@@ -15,7 +15,7 @@ class User(db.Model):
     password = db.Column(db.String)
 
     def __repr__(self):
-        return f'User { self.username }'
+        return self.email 
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:

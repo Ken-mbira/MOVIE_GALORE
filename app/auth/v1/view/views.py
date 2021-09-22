@@ -10,7 +10,7 @@ from app.auth.v1.model.models import User,UserSchema
 parser = RequestParser()
 parser.add_argument('username',type=str,required=True,help="Please add your name")
 parser.add_argument('email',type=str,required=True,help="Please add your email")
-parser.add_argument('email',type=str,required=True,help="Please add your password")
+parser.add_argument('password',type=str,required=True,help="Please add your password")
 
 class UserView(Resource):
     """This is the class that defines how the user will be viewed
@@ -42,6 +42,21 @@ class UserView(Resource):
         output = user_schema.dump(user)
 
         return{'user':output}
+
+    def delete(self):
+        args = parser.parse_args()
+        args = request.get_json()
+
+        username = args['username']
+        email = args['email']
+        password = args['password']
+
+        User.query.filter_by(email = email).delete()
+        db.session.commit()
+        
+        return {
+            'message' : f'User {username} was deleted '
+        }
 
 class UserLogin(Resource):
     """This defines the behaviours when a user is login in
