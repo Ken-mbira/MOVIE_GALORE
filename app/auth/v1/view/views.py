@@ -59,14 +59,11 @@ class UserLogin(Resource):
         password = args['password']
 
         user = User.query.filter_by(email = email).first()
-        if user is not None:
-            if password == user.password:
-                return {
-                    "message" : f"Welcome back {username}"
-                }
+        if user is not None and password == user.password:
             return {
-                'message' : 'Sorry but that password is not correct' 
+                "message" : f"Welcome back {username}"
             }
+
         return {
-            'message' : 'Wrong credentials, please check your email and try again'
+            'message' : 'Wrong credentials, please check your email and password and try again'
         }
