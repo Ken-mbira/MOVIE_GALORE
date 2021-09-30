@@ -17,6 +17,10 @@ class Issue(db.Model):
     def read(self):
         return self.title
 
+class IssueSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Issue
+
 class User(db.Model):
     """This will define the behaviours of the user class
 
@@ -47,3 +51,7 @@ class Category(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(200))
     issue = db.relationship("Issue",backref="category", lazy="dynamic")
+
+class CategorySchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Category

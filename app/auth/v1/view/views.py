@@ -5,7 +5,7 @@ from flask_restful.reqparse import RequestParser
 
 from app import db
 
-from app.auth.v1.model.models import User,UserSchema
+from app.auth.v1.model.models import User,UserSchema,Category,CategorySchema,Issue,IssueSchema
 
 parser = RequestParser()
 parser.add_argument('username',type=str,required=True,help="Please add your name")
@@ -80,3 +80,18 @@ class UserLogin(Resource):
         return {
             'message' : 'Wrong credentials, please check your email and password and try again'
         }
+
+class IssueView(Resource):
+    """This defines the behaviour when an issue is being created
+
+    Args:
+        Resource ([type]): [description]
+    """
+
+    def get(self):
+        "This retrieves all the issues and displays them for a user to see"
+        issue = Issue.query.all()
+        issue_schema = IssueSchema(many = True)
+        output = issue_schema.dump(issue)
+        
+        return {'Issue':output}
