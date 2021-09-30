@@ -5,7 +5,7 @@ from flask_restful.reqparse import RequestParser
 
 from app import db
 
-from app.auth.v1.model.models import Genre, User,UserSchema
+from app.auth.v1.model.models import User,UserSchema
 
 parser = RequestParser()
 parser.add_argument('username',type=str,required=True,help="Please add your name")
@@ -81,26 +81,4 @@ class UserLogin(Resource):
 
         return {
             'message' : 'Wrong credentials, please check your email and password and try again'
-        }
-
-class UserPreference(Resource):
-    """This is where a user can set his/her best genres
-
-    Args:
-        Resource ([type]): [description]
-    """
-    def put(self):
-        args = request.get_json()
-
-        username = args['username']
-        genre = args['genre']
-
-        user = User.query.filter_by(username = username).first()
-        preference = Genre.query.filter_by( name = genre ).first()
-
-        preference.preference.append(user)
-        db.session.commit()
-
-        return {
-            preference.id : user.id
         }
