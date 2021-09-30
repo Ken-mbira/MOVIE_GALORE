@@ -94,4 +94,45 @@ class IssueView(Resource):
         issue_schema = IssueSchema(many = True)
         output = issue_schema.dump(issue)
         
-        return {'Issue':output}
+        return {'Issues':output}
+
+    def post(self):
+        """This adds an issue to the database
+        """
+        args = request.get_json()
+
+        title = args['title']
+        body = args['body']
+        category_choice = args['category_choice']
+
+        category = Category.query.filter_by(name = category_choice).first()
+
+        issue = Issue(title = title, body = body, category_id = category.id)
+        db.session.add(issue)
+        db.session.commit()
+
+        issue = Issue.query.all()
+        issue_schema = IssueSchema(many = True)
+        output = issue_schema.dump(issue)
+
+        return{'Issues':output}
+
+    def delete(self):
+        """This will delete the issue"""
+        args = request.get_json()
+
+        title = args['title']
+
+        issue = Issue.query.filter_by(title = title).first()
+        db.session.delete(issue)
+        db.session.commit()
+        
+        issue = Issue.query.all()
+        issue_schema = IssueSchema(many = True)
+        output = issue_schema.dump(issue)
+
+        return{'Issues':output}
+
+
+
+
