@@ -26,7 +26,6 @@ class UserView(Resource):
         return{'user':output}
 
     def post(self):
-        # args = parser.parse_args()
         args = request.get_json()
 
         username = args['username']
@@ -44,7 +43,6 @@ class UserView(Resource):
         return{'user':output}
 
     def delete(self):
-        args = parser.parse_args()
         args = request.get_json()
 
         username = args['username']
