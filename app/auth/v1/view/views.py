@@ -63,8 +63,7 @@ class UserLogin(Resource):
         Resource ([type]): [description]
     """
 
-    def post(self):
-        args = parser.parse_args()
+    def get(self):
         args = request.get_json()
 
         username = args['username']
@@ -74,7 +73,7 @@ class UserLogin(Resource):
         user = User.query.filter_by(email = email).first()
         if user is not None and password == user.password:
             return {
-                "message" : f"Welcome back {username}"
+                "message" : f"Welcome back {user.username}"
             }
 
         return {

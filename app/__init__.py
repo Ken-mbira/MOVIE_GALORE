@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_cors import CORS
 
 from config import config_options
 
@@ -11,6 +12,7 @@ def create_app(config_name):
     """This is the app factory
     """
     app = Flask(__name__)
+    CORS(app)
 
     app.config.from_object(config_options[config_name])
 
